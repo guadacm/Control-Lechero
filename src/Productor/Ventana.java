@@ -1,4 +1,4 @@
-package Inicio;
+package Productor;
 
 
 import java.text.DateFormat;
@@ -8,10 +8,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class Ventana extends javax.swing.JFrame {
-
-    private static void exit(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
      // Creates new form Ventana
     public Ventana() {
@@ -29,11 +25,18 @@ public class Ventana extends javax.swing.JFrame {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jButton1 = new javax.swing.JButton();
-        Administrador = new javax.swing.JButton();
-        Salir = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -41,67 +44,89 @@ public class Ventana extends javax.swing.JFrame {
         bindingGroup.addBinding(binding);
 
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 10, -1, -1));
 
-        jButton1.setText("Empleado");
+        jButton1.setText("Borrar");
+        jButton1.setEnabled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(103, 167, 192, 43));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 180, 70, -1));
 
-        Administrador.setText("Administrador");
-        Administrador.addActionListener(new java.awt.event.ActionListener() {
+        jButton3.setText("Salir");
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(582, 352, -1, -1));
+
+        jButton5.setText("Modificar");
+        jButton5.setEnabled(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AdministradorActionPerformed(evt);
+                jButton5ActionPerformed(evt);
             }
         });
-        getContentPane().add(Administrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(103, 93, 192, 43));
-
-        Salir.setText("Salir");
-        Salir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SalirActionPerformed(evt);
-            }
-        });
-        getContentPane().add(Salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(306, 264, -1, -1));
+        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 220, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("Ingresar como:");
+        jLabel1.setText("Gestión de Productor");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Inicio/fondo5.png"))); // NOI18N
-        jLabel2.setText("jLabel2");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 390, 300));
+        jLabel5.setText("Modo: Administrador");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 120, -1));
+
+        jButton2.setText("Agregar");
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 178, -1));
+
+        jTextField1.setText("Nombre...");
+        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(228, 70, 140, -1));
+
+        jButton4.setText("Buscar");
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 70, -1, -1));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 550, 247));
+
+        jLabel3.setText("jLabel3");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 390));
 
         bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirActionPerformed
-        // TODO add your handling code here:
-        //Inicio.Ventana.exit(0);
-        dispose();
-    }//GEN-LAST:event_SalirActionPerformed
-
-    private void AdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdministradorActionPerformed
-        Menu.Ventana nueva = new Menu.Ventana(1);
-        nueva.setVisible(true);
-        nueva.setLocationRelativeTo(this);
-        //System.exit(0);
-        dispose();
-    }//GEN-LAST:event_AdministradorActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Menu.Ventana nueva = new Menu.Ventana(0);
-        nueva.setVisible(true);
-        nueva.setLocationRelativeTo(this);
-        //System.exit(0);
-        dispose();
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    static public long difFechas(int dia1, int mes1, int anio1, int dia2, int mes2, int anio2){
+        GregorianCalendar fecha1 = new GregorianCalendar(anio1,mes1,dia1);
+        GregorianCalendar fecha2 = new GregorianCalendar(anio2,mes2,dia2);
+        
+        long diferencia = fecha1.getTimeInMillis() - fecha2.getTimeInMillis();
+        long dias = diferencia / (1000 * 60 * 60 * 24);
+//        if(fecha2.getTimeInMillis()<fecha1.getTimeInMillis()){
+//            dias = dias - 1;
+//            return dias;
+//        }
+//        else { return dias;}
+        return dias;
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -135,11 +160,18 @@ public class Ventana extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Administrador;
-    private javax.swing.JButton Salir;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
     
