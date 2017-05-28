@@ -23,15 +23,12 @@ public class Ventana extends javax.swing.JFrame {
         int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
         int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
         this.setBounds((ancho / 2) - (this.getWidth() / 2), (alto / 2) - (this.getHeight() / 2), 500, 500);
-        
         initComponents();
-        
         fondo.setBounds((ancho / 2) - (this.getWidth() / 2), (alto / 2) - (this.getHeight() / 2), 500, 500);
-        
         //setLocationRelativeTo(null);
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
-        if (a==1) modo.setText("Modo: Administrador");
-        else modo.setText("Modo: Empleado");
+        if (a==1) modo.setText("  Modo: Administrador");
+        else modo.setText("  Modo: Empleado");
     }
 
     /**
@@ -64,16 +61,8 @@ public class Ventana extends javax.swing.JFrame {
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("MyApp"), this, org.jdesktop.beansbinding.BeanProperty.create("title"));
         bindingGroup.addBinding(binding);
 
-        javax.swing.GroupLayout panelderLayout = new javax.swing.GroupLayout(panelder);
-        panelder.setLayout(panelderLayout);
-        panelderLayout.setHorizontalGroup(
-            panelderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 520, Short.MAX_VALUE)
-        );
-        panelderLayout.setVerticalGroup(
-            panelderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 430, Short.MAX_VALUE)
-        );
+        panelder.setPreferredSize(new java.awt.Dimension(1000, 500));
+        panelder.setLayout(null);
 
         Salir.setText("Salir");
         Salir.addActionListener(new java.awt.event.ActionListener() {
@@ -87,6 +76,11 @@ public class Ventana extends javax.swing.JFrame {
 
         productor.setIcon(new javax.swing.ImageIcon("C:\\Users\\Guada\\Desktop\\Java\\77\\png\\prod.png")); // NOI18N
         productor.setOpaque(false);
+        productor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                productorActionPerformed(evt);
+            }
+        });
 
         empleado.setIcon(new javax.swing.ImageIcon("C:\\Users\\Guada\\Desktop\\Java\\77\\png\\administrator1.png")); // NOI18N
         empleado.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -112,6 +106,12 @@ public class Ventana extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setText("Establecimiento");
 
+        modo.setText("Modo");
+        modo.setAlignmentX(0.5F);
+        modo.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        modo.setFocusable(false);
+        modo.setOpaque(true);
+
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Menu/fondo6.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -119,64 +119,64 @@ public class Ventana extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabel1))
+                .addGap(100, 100, 100)
+                .addComponent(jLabel3))
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(empleado, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(50, 50, 50)
+                .addComponent(jButton6))
             .addGroup(layout.createSequentialGroup()
-                .addGap(70, 70, 70)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(60, 60, 60)
+                .addGap(80, 80, 80)
                 .addComponent(jLabel4))
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(modo, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(50, 50, 50)
+                .addComponent(empleado, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jButton6))
+                .addGap(50, 50, 50)
+                .addComponent(productor))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(90, 90, 90)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(modo, javax.swing.GroupLayout.PREFERRED_SIZE, 1910, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(70, 70, 70)
                 .addComponent(Salir))
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(productor))
+                .addGap(10, 10, 10)
+                .addComponent(jLabel1))
             .addGroup(layout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addComponent(jLabel3))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(360, 360, 360)
+                .addGap(290, 290, 290)
                 .addComponent(panelder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(fondo)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addComponent(jLabel1)
-                .addGap(58, 58, 58)
-                .addComponent(empleado, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(560, 560, 560)
+                .addGap(430, 430, 430)
+                .addComponent(jLabel3)
+                .addGap(16, 16, 16)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
                 .addComponent(jLabel4))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(120, 120, 120)
+                .addComponent(empleado, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(290, 290, 290)
+                .addComponent(productor, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(260, 260, 260)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(670, 670, 670)
                 .addComponent(modo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(420, 420, 420)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(630, 630, 630)
                 .addComponent(Salir))
             .addGroup(layout.createSequentialGroup()
-                .addGap(250, 250, 250)
-                .addComponent(productor, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(380, 380, 380)
-                .addComponent(jLabel3))
+                .addGap(11, 11, 11)
+                .addComponent(jLabel1))
             .addGroup(layout.createSequentialGroup()
                 .addGap(120, 120, 120)
                 .addComponent(panelder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -195,16 +195,25 @@ public class Ventana extends javax.swing.JFrame {
 
     private void empleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadoActionPerformed
         // TODO add your handling code here:
-        Productor.productor nueva = new Productor.productor();  
+        /*Productor.productor nueva = new Productor.productor();  
         nueva.setSize(500,500);
         nueva.setLocation(5, 5);
         panelder.removeAll();
         panelder.add(nueva, BorderLayout.CENTER);
         panelder.revalidate();
-        panelder.repaint();
-        
+        panelder.repaint();     */   
         
     }//GEN-LAST:event_empleadoActionPerformed
+
+    private void productorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productorActionPerformed
+        Productor.productor nueva = new Productor.productor();  
+        nueva.setSize(1000,599);
+        nueva.setLocation(5, 5);
+        panelder.removeAll();
+        panelder.add(nueva ,BorderLayout.CENTER);
+        panelder.revalidate();
+        panelder.repaint();
+    }//GEN-LAST:event_productorActionPerformed
 
     
     public static void main(String args[]) {

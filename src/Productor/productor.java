@@ -5,6 +5,11 @@
  */
 package Productor;
 
+import java.sql.ResultSet;
+import Conexion.java;
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 /**
  *
  * @author Guada
@@ -16,6 +21,30 @@ public class productor extends javax.swing.JPanel {
      */
     public productor() {
         initComponents();
+        String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
+        String user = "postgres";
+        String pass = "carmen26";
+
+        try {
+            Class.forName("org.postgresql.Driver");
+            Connection conex = DriverManager.getConnection(cadena, user, pass);
+            java.sql.Statement st = conex.createStatement();
+            String nombre, dni, telefono, domicilio;
+            String sql = "SELECT * FROM productor ";
+            ResultSet result = st.executeQuery(sql);
+            while (result.next()) {
+                nombre = result.getString("nombre");
+                dni = result.getString("dni");
+                telefono = result.getString("telefono");
+                domicilio = result.getString("domicilio");
+                
+            }
+            result.close();
+            st.close();
+            conex.close();
+        } catch (Exception exc) {
+            System.out.println("Errorx:" + exc.getMessage());
+        }
     }
 
     /**
@@ -29,16 +58,16 @@ public class productor extends javax.swing.JPanel {
 
         jLabel2 = new javax.swing.JLabel();
         borrar = new javax.swing.JButton();
-        salir = new javax.swing.JButton();
         modificar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        modo = new javax.swing.JLabel();
         agregar = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         buscar = new javax.swing.JButton();
         tablaProd = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        fondo = new javax.swing.JLabel();
+        tabla = new javax.swing.JTable();
+
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setPreferredSize(new java.awt.Dimension(1000, 499));
 
         borrar.setText("Borrar");
         borrar.setEnabled(false);
@@ -47,8 +76,6 @@ public class productor extends javax.swing.JPanel {
                 borrarActionPerformed(evt);
             }
         });
-
-        salir.setText("Salir");
 
         modificar.setText("Modificar");
         modificar.setEnabled(false);
@@ -61,8 +88,6 @@ public class productor extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Gestión de Productor");
 
-        modo.setText("Modo: Administrador");
-
         agregar.setText("Agregar");
 
         jTextField1.setText("Nombre...");
@@ -74,7 +99,7 @@ public class productor extends javax.swing.JPanel {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -82,91 +107,64 @@ public class productor extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nombre", "DNI", "Telefono", "Domicilio"
             }
-        ));
-        tablaProd.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false
+            };
 
-        fondo.setText("jLabel3");
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablaProd.setViewportView(tabla);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 670, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(228, 228, 228)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(modo, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(tablaProd, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(550, 550, 550)
-                            .addComponent(jLabel2))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(582, 582, 582)
-                            .addComponent(salir))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(580, 580, 580)
-                            .addComponent(borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(370, 370, 370)
-                            .addComponent(buscar))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(580, 580, 580)
-                            .addComponent(modificar))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(jLabel1))
-                        .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(550, 550, 550)
+                .addComponent(jLabel2))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(buscar))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(tablaProd, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(120, 120, 120)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(modificar)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 390, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(70, 70, 70)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(280, 280, 280)
-                            .addComponent(modo))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(110, 110, 110)
-                            .addComponent(tablaProd, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(jLabel2))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(70, 70, 70)
-                            .addComponent(agregar))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(352, 352, 352)
-                            .addComponent(salir))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(180, 180, 180)
-                            .addComponent(borrar))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(70, 70, 70)
-                            .addComponent(buscar))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(220, 220, 220)
-                            .addComponent(modificar))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(11, 11, 11)
-                            .addComponent(jLabel1))
-                        .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel2)
+                .addGap(1, 1, 1)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(agregar)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buscar))
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tablaProd, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(borrar)
+                        .addGap(57, 57, 57)
+                        .addComponent(modificar))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -187,14 +185,11 @@ public class productor extends javax.swing.JPanel {
     private javax.swing.JButton agregar;
     private javax.swing.JButton borrar;
     private javax.swing.JButton buscar;
-    private javax.swing.JLabel fondo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton modificar;
-    private javax.swing.JLabel modo;
-    private javax.swing.JButton salir;
-    private javax.swing.JScrollPane tablaProd;
+    public static javax.swing.JTable tabla;
+    public static javax.swing.JScrollPane tablaProd;
     // End of variables declaration//GEN-END:variables
 }
