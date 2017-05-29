@@ -46,7 +46,7 @@ public class Ventana extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         productor = new javax.swing.JButton();
         empleado = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        establecimiento = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -74,7 +74,7 @@ public class Ventana extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Menú Principal");
 
-        productor.setIcon(new javax.swing.ImageIcon("C:\\Users\\Guada\\Desktop\\Java\\77\\png\\prod.png")); // NOI18N
+        productor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Menu/prod.png"))); // NOI18N
         productor.setOpaque(false);
         productor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,7 +82,7 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
 
-        empleado.setIcon(new javax.swing.ImageIcon("C:\\Users\\Guada\\Desktop\\Java\\77\\png\\administrator1.png")); // NOI18N
+        empleado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Menu/administrator1.png"))); // NOI18N
         empleado.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         empleado.setMaximumSize(new java.awt.Dimension(209, 265));
         empleado.setMinimumSize(new java.awt.Dimension(209, 265));
@@ -94,8 +94,13 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setIcon(new javax.swing.ImageIcon("C:\\Users\\Guada\\Desktop\\Java\\77\\png\\casa.png")); // NOI18N
-        jButton6.setOpaque(false);
+        establecimiento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Menu/casa.png"))); // NOI18N
+        establecimiento.setOpaque(false);
+        establecimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                establecimientoActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("Empleado");
@@ -123,7 +128,7 @@ public class Ventana extends javax.swing.JFrame {
                 .addComponent(jLabel3))
             .addGroup(layout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(jButton6))
+                .addComponent(establecimiento))
             .addGroup(layout.createSequentialGroup()
                 .addGap(80, 80, 80)
                 .addComponent(jLabel4))
@@ -156,7 +161,7 @@ public class Ventana extends javax.swing.JFrame {
                 .addGap(430, 430, 430)
                 .addComponent(jLabel3)
                 .addGap(16, 16, 16)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(establecimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
                 .addComponent(jLabel4))
             .addGroup(layout.createSequentialGroup()
@@ -215,6 +220,10 @@ public class Ventana extends javax.swing.JFrame {
         panelder.repaint();
     }//GEN-LAST:event_productorActionPerformed
 
+    private void establecimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_establecimientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_establecimientoActionPerformed
+
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -251,8 +260,8 @@ public class Ventana extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Salir;
     private javax.swing.JButton empleado;
+    private javax.swing.JButton establecimiento;
     private javax.swing.JLabel fondo;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

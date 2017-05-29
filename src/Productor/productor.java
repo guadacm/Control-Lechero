@@ -5,9 +5,11 @@
  */
 package Productor;
 
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,7 +17,8 @@ import javax.swing.table.DefaultTableModel;
  * @author Guada
  */
 public class productor extends javax.swing.JPanel {
-            
+    int row;
+
     public productor() {
         initComponents();
         String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
@@ -26,8 +29,8 @@ public class productor extends javax.swing.JPanel {
             Class.forName("org.postgresql.Driver");
             Connection conex = DriverManager.getConnection(cadena, user, pass);
             java.sql.Statement st = conex.createStatement();
-            DefaultTableModel m = (DefaultTableModel) tabla.getModel();         
-            
+            DefaultTableModel m = (DefaultTableModel) tabla.getModel();
+
             String sql = "SELECT * FROM productor ORDER BY nombre";
             ResultSet result = st.executeQuery(sql);
             String fila[] = new String[4];
@@ -44,6 +47,30 @@ public class productor extends javax.swing.JPanel {
             conex.close();
         } catch (Exception exc) {
             System.out.println("Errorx:" + exc.getMessage());
+        }
+
+        setEventoMouseClicked(tabla);
+
+        //tabla.addMouseListener(new MouseAdapter());
+    }
+
+    private void setEventoMouseClicked(JTable tbl) {
+        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                tablaMouseClicked(e);
+            }
+        });
+    }
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {
+        row = tabla.getSelectedRow();
+        if (row != -1){
+            borrar.setEnabled(true);
+            modificar.setEnabled(true);
+        }else{
+            borrar.setEnabled(false);
+            modificar.setEnabled(false);
         }
     }
 
@@ -176,6 +203,15 @@ public class productor extends javax.swing.JPanel {
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
         // TODO add your handling code here:
+        editarProd edit = new editarProd();
+        edit.setVisible(true);
+        edit.setLocationRelativeTo(this);
+        edit.nombre.setText((String) tabla.getValueAt(row, 0));
+        edit.dni.setText((String) tabla.getValueAt(row, 1));
+        edit.telefono.setText((String) tabla.getValueAt(row, 2));
+        edit.domicilio.setText((String) tabla.getValueAt(row, 3));
+        
+        
     }//GEN-LAST:event_modificarActionPerformed
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
