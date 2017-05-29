@@ -20,7 +20,7 @@ public class productor extends javax.swing.JPanel {
         initComponents();
         String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
         String user = "postgres";
-        String pass = "carmen26";
+        String pass = "boca";
 
         try {
             Class.forName("org.postgresql.Driver");
@@ -89,6 +89,11 @@ public class productor extends javax.swing.JPanel {
         jLabel1.setText("Gestión de Productor");
 
         agregar.setText("Agregar");
+        agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarActionPerformed(evt);
+            }
+        });
 
         jTextField1.setText("Nombre...");
 
@@ -176,6 +181,12 @@ public class productor extends javax.swing.JPanel {
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_buscarActionPerformed
+
+    private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
+        AltaProductor nueva = new Productor.AltaProductor();
+        nueva.setVisible(true);
+        nueva.setLocationRelativeTo(this);
+    }//GEN-LAST:event_agregarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

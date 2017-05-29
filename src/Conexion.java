@@ -9,13 +9,13 @@ public class Conexion {
     public static void main(String[] args) {
         String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
         String user = "postgres";
-        String pass = "carmen26";
+        String pass = "boca";
 
         try {
             Class.forName("org.postgresql.Driver");
             Connection conex = DriverManager.getConnection(cadena, user, pass);
             java.sql.Statement st = conex.createStatement();
-            String sql = "SELECT nombre FROM empleado ";
+            String sql = "SELECT * FROM productor ";
             ResultSet result = st.executeQuery(sql);
             while (result.next()) {
                 String usuario = result.getString("nombre");
