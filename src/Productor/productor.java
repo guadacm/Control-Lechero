@@ -6,19 +6,16 @@
 package Productor;
 
 import java.sql.ResultSet;
-import Conexion.java;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Guada
  */
 public class productor extends javax.swing.JPanel {
-
-    /**
-     * Creates new form Productor
-     */
+            
     public productor() {
         initComponents();
         String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
@@ -29,16 +26,19 @@ public class productor extends javax.swing.JPanel {
             Class.forName("org.postgresql.Driver");
             Connection conex = DriverManager.getConnection(cadena, user, pass);
             java.sql.Statement st = conex.createStatement();
-            String nombre, dni, telefono, domicilio;
-            String sql = "SELECT * FROM productor ";
+            DefaultTableModel m = (DefaultTableModel) tabla.getModel();         
+            
+            String sql = "SELECT * FROM productor ORDER BY nombre";
             ResultSet result = st.executeQuery(sql);
+            String fila[] = new String[4];
             while (result.next()) {
-                nombre = result.getString("nombre");
-                dni = result.getString("dni");
-                telefono = result.getString("telefono");
-                domicilio = result.getString("domicilio");
-                
+                fila[0] = result.getString("nombre");
+                fila[1] = result.getString("dni");
+                fila[2] = result.getString("telefono");
+                fila[3] = result.getString("domicilio");
+                m.addRow(fila);
             }
+            tabla.setModel(m);
             result.close();
             st.close();
             conex.close();
@@ -101,10 +101,7 @@ public class productor extends javax.swing.JPanel {
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Nombre", "DNI", "Telefono", "Domicilio"
