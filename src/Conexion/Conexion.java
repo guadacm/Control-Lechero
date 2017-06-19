@@ -1,12 +1,16 @@
+package Conexion;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
 
 
 public class Conexion {
-
-    public static void main(String[] args) {
+    
+    
+   
+/*    public static void main(String[] args) {
         String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
         String user = "postgres";
         String pass = "boca";
@@ -15,7 +19,7 @@ public class Conexion {
             Class.forName("org.postgresql.Driver");
             Connection conex = DriverManager.getConnection(cadena, user, pass);
             java.sql.Statement st = conex.createStatement();
-            String sql = "SELECT * FROM productor ";
+            String sql = "SELECT * FROM prod ";
             ResultSet result = st.executeQuery(sql);
             while (result.next()) {
                 String usuario = result.getString("nombre");
@@ -28,5 +32,5 @@ public class Conexion {
         } catch (Exception exc) {
             System.out.println("Errorx:" + exc.getMessage());
         }
-    }
+    }*/
 }
