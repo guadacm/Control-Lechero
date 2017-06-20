@@ -195,7 +195,11 @@ public class Principal extends javax.swing.JFrame {
 
     private void empleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadoActionPerformed
         // TODO add your handling code here:
+<<<<<<< HEAD
         /*Prod.productor nueva = new Prod.productor();
+=======
+        /*Productor.productor nueva = new Productor.productor();
+>>>>>>> deed47acd1eb7df373b19a4d0af7b7ca6022c397
         nueva.setSize(500,500);
         nueva.setLocation(5, 5);
         panelder.removeAll();
@@ -206,7 +210,11 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_empleadoActionPerformed
 
     private void productorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productorActionPerformed
+<<<<<<< HEAD
         Productor.GestionarProductor panelProductor = new Productor.GestionarProductor();
+=======
+        Productor.Productor panelProductor = new Productor.Productor();
+>>>>>>> deed47acd1eb7df373b19a4d0af7b7ca6022c397
         panelProductor.setSize(1000,599);
         panelProductor.setLocation(5, 5);
         panelDerecha.removeAll();
@@ -218,6 +226,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void establecimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_establecimientoActionPerformed
         // TODO add your handling code here:
+<<<<<<< HEAD
         Establecimiento.establecimiento panelEstablecimiento = new Establecimiento.establecimiento();
         panelEstablecimiento.setSize(1000,599);
         panelEstablecimiento.setLocation(5, 5);
@@ -226,6 +235,8 @@ public class Principal extends javax.swing.JFrame {
         //panelDerecha.add(panelProductor ,BorderLayout.CENTER);
         panelDerecha.revalidate();
         panelDerecha.repaint();
+=======
+>>>>>>> deed47acd1eb7df373b19a4d0af7b7ca6022c397
     }//GEN-LAST:event_establecimientoActionPerformed
 
     /**
@@ -254,7 +265,10 @@ public class Principal extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+<<<<<<< HEAD
         //</editor-fold>
+=======
+>>>>>>> deed47acd1eb7df373b19a4d0af7b7ca6022c397
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
