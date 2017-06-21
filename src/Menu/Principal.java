@@ -6,6 +6,7 @@
 package Menu;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
@@ -21,13 +22,14 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         setLocationRelativeTo(null);
-        //setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
     }
     
-    public Principal(int a) {
+    public Principal(int m) {
         initComponents();
         int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
         int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
+        //setExtendedState(JFrame.MAXIMIZED_BOTH); //mantener maximizada la ventana
         //System.out.println("ancho " + ancho + " alto " + alto);
         //this.setSize(ancho, alto);
         //this.setBounds((ancho / 2) - (this.getWidth() / 2), (alto / 2) - (this.getHeight() / 2), 500, 500);
@@ -37,8 +39,13 @@ public class Principal extends javax.swing.JFrame {
         //fondo.setBounds((ancho / 2) - (this.getWidth() / 2), (alto / 2) - (this.getHeight() / 2), 500, 500);
         //setLocationRelativeTo(null);
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
-        if (a==1) modo.setText("  Modo: Administrador");
-        else modo.setText("  Modo: Empleado");
+        if (m==1) modo.setText("  Modo: Administrador");
+        else {
+            modo.setText("  Modo: Empleado");
+            modo.setBackground(Color.cyan);
+            empleado.setEnabled(false);
+            productor.setEnabled(false);
+        }
     }
 
     /**
@@ -276,4 +283,5 @@ public class Principal extends javax.swing.JFrame {
     public static javax.swing.JPanel panelDerecha;
     private javax.swing.JButton productor;
     // End of variables declaration//GEN-END:variables
+    public static int md; 
 }

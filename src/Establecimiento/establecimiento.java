@@ -7,6 +7,8 @@ package Establecimiento;
 
 import Conexion.Conexion;
 import static Menu.Principal.panelDerecha;
+import static Productor.GestionarProductor.tabla;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
@@ -14,6 +16,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartPanel;
 
 /**
  *
@@ -86,35 +89,6 @@ public class establecimiento extends javax.swing.JPanel {
             VerDatosEstadisticos.setEnabled(false);
         }
     }
-    
-    /*   
-    public Establecimiento1() {
-        initComponents();
-        String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
-        String user = "postgres";
-        String pass = "boca";
-
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(cadena, user, pass);
-            java.sql.Statement st = conex.createStatement();
-            String nombre, dni, telefono, domicilio;
-            String sql = "SELECT * FROM productor ";
-            ResultSet result = st.executeQuery(sql);
-            while (result.next()) {
-                nombre = result.getString("nombre");
-                dni = result.getString("dni");
-                telefono = result.getString("telefono");
-                domicilio = result.getString("domicilio");
-                
-            }
-            result.close();
-            st.close();
-            conex.close();
-        } catch (Exception exc) {
-            System.out.println("Errorx:" + exc.getMessage());
-        }
-    }*/
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -195,6 +169,11 @@ public class establecimiento extends javax.swing.JPanel {
 
         VerDatosEstadisticos.setText("Ver datos estadisticos");
         VerDatosEstadisticos.setEnabled(false);
+        VerDatosEstadisticos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerDatosEstadisticosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -273,6 +252,33 @@ public class establecimiento extends javax.swing.JPanel {
         panelDerecha.repaint();
         panelAnimal.codigoE = (codEstab);
     }//GEN-LAST:event_ABM_AnimalActionPerformed
+
+    private void VerDatosEstadisticosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerDatosEstadisticosActionPerformed
+        Dimension d = panelDerecha.getSize();
+        
+        // Grafico "Produccion de leche por mes"
+        Grafico g = new Grafico();
+        ChartPanel PanelGraf = new ChartPanel(g.grafica);
+        PanelGraf.setSize(d.width/2, d.height/2);
+        
+        //Ventana.getContentPane().add(Panel);
+        //Ventana.pack();
+        //Ventana.setVisible(true);
+        //Ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        Estadisticas Panel = new Estadisticas(Integer.parseInt((String)tabla.getValueAt(row, 3)));
+        //ChartPanel Panel = new ChartPanel(nuevo.grafica);
+        
+        //Panel.setSize(d.width/2, d.height/2);  
+        Panel.setSize(d.width/2, d.height/2);
+        Panel.setLocation(5, 5);
+        panelDerecha.removeAll();
+        panelDerecha.add(Panel);
+        Panel.add(PanelGraf);
+        //panelDerecha.add(PanelGraf);        
+        panelDerecha.revalidate();
+        panelDerecha.repaint();
+    }//GEN-LAST:event_VerDatosEstadisticosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
