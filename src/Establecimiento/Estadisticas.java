@@ -6,10 +6,13 @@
 package Establecimiento;
 
 import Conexion.Conexion;
+import static Menu.Principal.panelDerecha;
+import java.awt.Dimension;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartPanel;
 
 /**
  *
@@ -24,6 +27,7 @@ public class Estadisticas extends javax.swing.JPanel {
      */
     public Estadisticas(int ecod) {
         initComponents();
+        Dimension d = panelDerecha.getSize();
         
         // Obtengo datos de la base de datos para calcular las estadisticas
         try {
@@ -51,7 +55,7 @@ public class Estadisticas extends javax.swing.JPanel {
             result.close();
             st.close();
             conex.close();
-            //tablaEscondida.setVisible(false);
+            tablaEscondida.setVisible(false);
             
         } catch (Exception exc) {
             System.out.println("Errorx:" + exc.getMessage());
@@ -61,7 +65,7 @@ public class Estadisticas extends javax.swing.JPanel {
             Class.forName("org.postgresql.Driver");
             Connection conex = DriverManager.getConnection(Conexion.cadena, Conexion.user, Conexion.pass);
             java.sql.Statement st = conex.createStatement();
-            DefaultTableModel m = (DefaultTableModel) tablaProduccion.getModel();
+            DefaultTableModel m = (DefaultTableModel) tabla.getModel();
             
             String sql = "SELECT fecha, SUM(cantlts)\n" +
                     "FROM produccion, animal, establecimiento\n" +
@@ -75,7 +79,7 @@ public class Estadisticas extends javax.swing.JPanel {
                 fila[1] = result.getString("sum");                
                 m.addRow(fila);
             }
-            tablaProduccion.setModel(m);            
+            tabla.setModel(m);            
             result.close();
             st.close();
             conex.close();
@@ -83,6 +87,22 @@ public class Estadisticas extends javax.swing.JPanel {
         } catch (Exception exc) {
             System.out.println("Errorx:" + exc.getMessage());
         }
+        
+        float lts[] = new float[12];
+        for (int i=0; i<12; i++){
+            lts[i] = (float)0.0;
+        }
+        for(int i=0; i<tabla.getRowCount(); i++){
+            String fecha = (String) tabla.getValueAt(i, 0);
+            int mes = Integer.parseInt(fecha.substring(5, 7));
+            lts[mes-1] = Float.parseFloat((String) tabla.getValueAt(i, 1));
+        }
+        Grafico g = new Grafico(lts);
+        ChartPanel PanelGraf = new ChartPanel(g.grafica);
+        PanelGraf.setSize(d.width/2, d.height/2);
+        jPanel1.add(PanelGraf);
+        jPanel1.repaint();
+        
     }
 
     /**
@@ -97,9 +117,9 @@ public class Estadisticas extends javax.swing.JPanel {
 
         tablaEscondida = new javax.swing.JScrollPane();
         aux = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
         datos = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -133,55 +153,63 @@ public class Estadisticas extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        aux.setRowHeight(10);
         tablaEscondida.setViewportView(aux);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         add(tablaEscondida, gridBagConstraints);
+
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Fecha", "Cant. Lts"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabla.setMinimumSize(new java.awt.Dimension(150, 0));
+        tabla.setRowHeight(10);
+        tabla.setRowSelectionAllowed(false);
+        datos.setViewportView(tabla);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        add(datos, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 134, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 7, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         add(jPanel1, gridBagConstraints);
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        datos.setViewportView(jTable1);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        add(datos, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
     private void tablaEscondidaComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tablaEscondidaComponentHidden
         // TODO add your handling code here:
 
@@ -200,7 +228,7 @@ public class Estadisticas extends javax.swing.JPanel {
     private javax.swing.JTable aux;
     private javax.swing.JScrollPane datos;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabla;
     private javax.swing.JScrollPane tablaEscondida;
     // End of variables declaration//GEN-END:variables
 }

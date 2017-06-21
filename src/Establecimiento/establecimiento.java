@@ -7,9 +7,7 @@ package Establecimiento;
 
 import Conexion.Conexion;
 import static Menu.Principal.panelDerecha;
-import static Productor.GestionarProductor.tabla;
 import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.Connection;
@@ -257,9 +255,9 @@ public class establecimiento extends javax.swing.JPanel {
         Dimension d = panelDerecha.getSize();
         
         // Grafico "Produccion de leche por mes"
-        Grafico g = new Grafico();
-        ChartPanel PanelGraf = new ChartPanel(g.grafica);
-        PanelGraf.setSize(d.width/2, d.height/2);
+        //Grafico g = new Grafico();
+        //ChartPanel PanelGraf = new ChartPanel(g.grafica);
+        //PanelGraf.setSize(100, 100);
         
         //Ventana.getContentPane().add(Panel);
         //Ventana.pack();
@@ -270,11 +268,11 @@ public class establecimiento extends javax.swing.JPanel {
         //ChartPanel Panel = new ChartPanel(nuevo.grafica);
         
         //Panel.setSize(d.width/2, d.height/2);  
-        Panel.setSize(d.width/2, d.height/2);
+        Panel.setSize(d);
         Panel.setLocation(5, 5);
         panelDerecha.removeAll();
         panelDerecha.add(Panel);
-        Panel.add(PanelGraf);
+        //Panel.add(PanelGraf);
         //panelDerecha.add(PanelGraf);        
         panelDerecha.revalidate();
         panelDerecha.repaint();

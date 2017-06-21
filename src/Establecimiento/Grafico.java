@@ -17,24 +17,27 @@ import org.jfree.data.category.DefaultCategoryDataset;
 public class Grafico extends javax.swing.JPanel {
     JFreeChart grafica;
     DefaultCategoryDataset Datos = new DefaultCategoryDataset();
+    float lts[] = new float[12];
+    
     /**
      * Creates new form Grafico
+     * @param lts
      */
-    public Grafico() {
+    public Grafico(float lts[]) {
         initComponents();
         
-        Datos.addValue(1, "Negocio 1", "Enero");
-        Datos.addValue(2, "Negocio 1", "Febrero");
-        Datos.addValue(3, "Negocio 1", "Marzo");
-        Datos.addValue(4, "Negocio 1", "Abril");
-        Datos.addValue(5, "Negocio 1", "Mayo");
-        Datos.addValue(6, "Negocio 1", "Junio");
-        Datos.addValue(7, "Negocio 1", "Julio");
-        Datos.addValue(8, "Negocio 1", "Agosto");
-        Datos.addValue(9, "Negocio 1", "Septiembre");
-        Datos.addValue(10, "Negocio 1", "Octubre");
-        Datos.addValue(11, "Negocio 1", "Noviembre");
-        Datos.addValue(12, "Negocio 1", "Diciembre");
+        Datos.addValue(lts[0], "Negocio 1", "Enero");
+        Datos.addValue(lts[1], "Negocio 1", "Febrero");
+        Datos.addValue(lts[2], "Negocio 1", "Marzo");
+        Datos.addValue(lts[3], "Negocio 1", "Abril");
+        Datos.addValue(lts[4], "Negocio 1", "Mayo");
+        Datos.addValue(lts[5], "Negocio 1", "Junio");
+        Datos.addValue(lts[6], "Negocio 1", "Julio");
+        Datos.addValue(lts[7], "Negocio 1", "Agosto");
+        Datos.addValue(lts[8], "Negocio 1", "Septiembre");
+        Datos.addValue(lts[9], "Negocio 1", "Octubre");
+        Datos.addValue(lts[10], "Negocio 1", "Noviembre");
+        Datos.addValue(lts[11], "Negocio 1", "Diciembre");
 
         grafica = ChartFactory.createBarChart("Produccion de leche por mes",
                 "Mes", "Lts", Datos,
