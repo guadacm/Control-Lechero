@@ -5,7 +5,10 @@
  */
 package Productor;
 
+import Conexion.Conexion;
+import static Conexion.Conexion.pass;
 import Establecimiento.AltaEstablecimiento;
+import static Menu.Principal.panelDerecha;
 import static Productor.GestionarProductor.tabla;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -210,13 +213,13 @@ public class AgregarProductor extends javax.swing.JFrame {
         String telefono = campoTelefono.getText();
         String domicilio = campoDomicilio.getText();
 
-        String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
-        String user = "postgres";
-        String pass = "carmen26";
+        //String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
+        //String user = "postgres";
+        //String pass = "carmen26";
 
         try {
             Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(cadena, user, pass);
+            Connection conex = DriverManager.getConnection(Conexion.cadena, Conexion.user, Conexion.pass);
             java.sql.Statement st = conex.createStatement();
 
             String sql = "INSERT INTO productor ( dni,nombre,telefono,domicilio)"+
@@ -242,7 +245,7 @@ public class AgregarProductor extends javax.swing.JFrame {
             else{
             try {
             Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(cadena, user, pass);
+            Connection conex = DriverManager.getConnection(Conexion.cadena, Conexion.user, Conexion.pass);
             java.sql.Statement st = conex.createStatement();
 
             String sql = "SELECT pcod FROM productor WHERE dni='" + dni + "';";
@@ -278,6 +281,15 @@ public class AgregarProductor extends javax.swing.JFrame {
         }
     
         dispose();
+        
+        //Para refrescar la pantalla de Gestionar Productor
+        Productor.GestionarProductor panelProductor = new Productor.GestionarProductor();
+        panelProductor.setSize(1000,599);
+        panelProductor.setLocation(5, 5);
+        panelDerecha.removeAll();
+        panelDerecha.add(panelProductor);
+        panelDerecha.revalidate();
+        panelDerecha.repaint();
         
         
     }//GEN-LAST:event_AceptarActionPerformed

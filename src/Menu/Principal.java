@@ -39,6 +39,7 @@ public class Principal extends javax.swing.JFrame {
         //fondo.setBounds((ancho / 2) - (this.getWidth() / 2), (alto / 2) - (this.getHeight() / 2), 500, 500);
         //setLocationRelativeTo(null);
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
+        md=m;
         if (m==1) modo.setText("  Modo: Administrador");
         else {
             modo.setText("  Modo: Empleado");

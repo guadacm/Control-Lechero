@@ -80,6 +80,11 @@ public class EliminarProductor extends javax.swing.JFrame {
         getContentPane().add(jLabel4, gridBagConstraints);
 
         Cancelar.setText("Cancelar");
+        Cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelarActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
@@ -170,6 +175,10 @@ public class EliminarProductor extends javax.swing.JFrame {
 
         dispose();
     }//GEN-LAST:event_AceptarActionPerformed
+
+    private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
+        dispose();        
+    }//GEN-LAST:event_CancelarActionPerformed
 
     /**
      * @param args the command line arguments
