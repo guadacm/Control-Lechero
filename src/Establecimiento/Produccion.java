@@ -18,24 +18,19 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Guada
  */
-public class Animal extends javax.swing.JPanel {
+public class Produccion extends javax.swing.JPanel {
 
     /**
      * Creates new form Productor
      */
     int row;
 
-    public Animal(String codigoE){        
+    public Produccion(String codigoA, String codigoE){        
         initComponents();
+        Titulo1.setText("Produccíon del Animal (Código: "+codigoA+")");
+        codEstab=codigoE;
         volver.setEnabled(true);
-        if(Menu.Principal.md == 1) agregar.setEnabled(false);
-        /*if (Menu.Principal.md == 1) {
-            RegistrarProduccion.setEnabled(false);
-            borrar.setEnabled(false);
-            agregar.setEnabled(false);
-            modificar.setEnabled(false);
-        }*/
-
+        
         try {
             Class.forName("org.postgresql.Driver");
             Connection conex = DriverManager.getConnection(Conexion.cadena, Conexion.user, Conexion.pass);
@@ -43,16 +38,18 @@ public class Animal extends javax.swing.JPanel {
             DefaultTableModel m = (DefaultTableModel) tabla.getModel();
             
             String sql = "SELECT *    " +
-                         "FROM animal " +
-                         " WHERE ecod ='" +codigoE+ "' ORDER BY raza";
+                         "FROM produccion " +
+                         " WHERE acod ='" +codigoA+ "' ORDER BY fecha";
             
             ResultSet result = st.executeQuery(sql);
-            String fila[] = new String[4];
+            String fila[] = new String[5];
+            //DecimalFormat a = new DecimalFormat("#0.00");
             while (result.next()) {
-                fila[0] = result.getString("raza");
-                fila[1] = result.getString("fechanac");
-                fila[2] = result.getString("peso");
-                fila[3] = result.getString("acod");
+                fila[0] = result.getString("fecha");
+                fila[1] = result.getString("cantlts");
+                fila[2] = result.getString("sng");
+                fila[3] = result.getString("densidad");
+                fila[4] = result.getString("nroReg");
                 m.addRow(fila);
             }
             tabla.setModel(m);
@@ -79,17 +76,13 @@ public class Animal extends javax.swing.JPanel {
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {
         row = tabla.getSelectedRow();
-        if (row != -1 && Menu.Principal.md != 1){
+        if (row != -1){
             borrar.setEnabled(true);
             modificar.setEnabled(true);
-            RegistrarProduccion.setEnabled(true);
-            VerProduccion.setEnabled(true);
            
         }else{
             borrar.setEnabled(false);
             modificar.setEnabled(false);
-            RegistrarProduccion.setEnabled(false);
-            VerProduccion.setEnabled(false);
         }
     }
     
@@ -134,14 +127,11 @@ public class Animal extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         borrar = new javax.swing.JButton();
         modificar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        agregar = new javax.swing.JButton();
+        Titulo1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         buscar = new javax.swing.JButton();
         tablaEstab = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
-        RegistrarProduccion = new javax.swing.JButton();
-        VerProduccion = new javax.swing.JButton();
         volver = new javax.swing.JButton();
 
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -163,17 +153,10 @@ public class Animal extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("Gestión de Animales");
+        Titulo1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        Titulo1.setText("Producción del Animal: Código");
 
-        agregar.setText("Agregar");
-        agregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                agregarActionPerformed(evt);
-            }
-        });
-
-        jTextField1.setText("Nombre...");
+        jTextField1.setText("Fecha...");
 
         buscar.setText("Buscar");
         buscar.addActionListener(new java.awt.event.ActionListener() {
@@ -187,36 +170,22 @@ public class Animal extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Raza", "Fecha de Nacimiento", "Peso (en Kilogramos)", "aCod (identificador)"
+                "Fecha", "Cantidad de litros", "s.n.g. (en %)", "Densidad (en %)", "NroReg"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tabla.setColumnSelectionAllowed(true);
         tablaEstab.setViewportView(tabla);
+        tabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        RegistrarProduccion.setText("Registrar Producción");
-        RegistrarProduccion.setEnabled(false);
-        RegistrarProduccion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegistrarProduccionActionPerformed(evt);
-            }
-        });
-
-        VerProduccion.setText("Ver Producción");
-        VerProduccion.setEnabled(false);
-        VerProduccion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VerProduccionActionPerformed(evt);
-            }
-        });
-
-        volver.setText("Volver");
+        volver.setText("volver");
         volver.setEnabled(false);
         volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -230,54 +199,48 @@ public class Animal extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(550, 550, 550)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(buscar))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
+                        .addComponent(Titulo1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(tablaEstab, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(40, 40, 40)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(2, 2, 2)
-                                .addComponent(buscar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(tablaEstab, javax.swing.GroupLayout.PREFERRED_SIZE, 739, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(41, 41, 41)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(VerProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(RegistrarProduccion)
-                                    .addComponent(volver, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(162, Short.MAX_VALUE))
+                            .addComponent(borrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(modificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(volver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(164, 164, 164))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
                 .addComponent(jLabel2)
                 .addGap(1, 1, 1)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Titulo1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(agregar)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buscar))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
+                        .addGap(35, 35, 35)
                         .addComponent(borrar)
                         .addGap(38, 38, 38)
                         .addComponent(modificar)
-                        .addGap(42, 42, 42)
-                        .addComponent(VerProduccion)
-                        .addGap(37, 37, 37)
-                        .addComponent(RegistrarProduccion)
-                        .addGap(73, 73, 73)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(volver))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(tablaEstab, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(tablaEstab, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -294,51 +257,25 @@ public class Animal extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_buscarActionPerformed
 
-    private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
-        AltaAnimal nueva = new AltaAnimal();
-        nueva.setVisible(true);
-        nueva.setLocationRelativeTo(this);
-        nueva.campo_ecod.setText(codigoE);     
-    }//GEN-LAST:event_agregarActionPerformed
-
-    private void RegistrarProduccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarProduccionActionPerformed
-        codigoA = (String) tabla.getValueAt(row,3);//codigo del animal del cual vamos a registrar su produccion
-        RegistrarProduccion nueva = new RegistrarProduccion();
-        nueva.setVisible(true);
-        nueva.setLocationRelativeTo(this);
-        nueva.prodAnimalX.setText(codigoA);    
-    }//GEN-LAST:event_RegistrarProduccionActionPerformed
-
-    private void VerProduccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerProduccionActionPerformed
-        String codAnimal = (String) tabla.getValueAt(row,3);//codigo del animal
-        Produccion panelProduccion = new Produccion(codAnimal,codigoE);
-        panelProduccion.setSize(1000,599);
-        panelProduccion.setLocation(5, 5);
-        panelDerecha.removeAll();
-        panelDerecha.add(panelProduccion);
-        panelDerecha.revalidate();
-        panelDerecha.repaint();
-    }//GEN-LAST:event_VerProduccionActionPerformed
-
     private void volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volverActionPerformed
-        Establecimiento.establecimiento panelEstablecimiento = new Establecimiento.establecimiento();
-        panelEstablecimiento.setSize(1000,599);
-        panelEstablecimiento.setLocation(5, 5);
+        Animal panelAnimal = new Animal(codEstab);
+        panelAnimal.setSize(1000,599);
+        panelAnimal.setLocation(5, 5);
         panelDerecha.removeAll();
-        panelDerecha.add(panelEstablecimiento);
+        panelDerecha.add(panelAnimal);
         panelDerecha.revalidate();
         panelDerecha.repaint();
+        panelAnimal.codigoE = (codEstab);
+
+
         // TODO add your handling code here:
     }//GEN-LAST:event_volverActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton RegistrarProduccion;
-    private javax.swing.JButton VerProduccion;
-    private javax.swing.JButton agregar;
+    private javax.swing.JLabel Titulo1;
     private javax.swing.JButton borrar;
     private javax.swing.JButton buscar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton modificar;
@@ -346,6 +283,5 @@ public class Animal extends javax.swing.JPanel {
     public static javax.swing.JScrollPane tablaEstab;
     private javax.swing.JButton volver;
     // End of variables declaration//GEN-END:variables
-    public String codigoE;
-    public String codigoA;
+    public String codEstab;
 }

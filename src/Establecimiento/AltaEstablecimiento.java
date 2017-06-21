@@ -44,8 +44,6 @@ public class AltaEstablecimiento extends javax.swing.JFrame {
         campoNombre = new javax.swing.JTextField();
         campoUbicacion = new javax.swing.JTextField();
         campoPcod = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        eLegajo = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -159,27 +157,6 @@ public class AltaEstablecimiento extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 5, 10, 20);
         getContentPane().add(campoPcod, gridBagConstraints);
 
-        jLabel7.setText("Empleado Asignado(Opcional)");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 20, 10, 5);
-        getContentPane().add(jLabel7, gridBagConstraints);
-
-        eLegajo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eLegajoActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(10, 5, 10, 20);
-        getContentPane().add(eLegajo, gridBagConstraints);
-
         jLabel6.setFont(new java.awt.Font("Tahoma", 3, 11)); // NOI18N
         jLabel6.setText("Datos del Establecimiento");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -202,7 +179,7 @@ public class AltaEstablecimiento extends javax.swing.JFrame {
         String nombre = campoNombre.getText();
         int pcod = Integer.parseInt(campoPcod.getText());
         String ubicacion = campoUbicacion.getText();
-        int legajo = Integer.parseInt(eLegajo.getText()); 
+        //int legajo = Integer.parseInt(eLegajo.getText()); 
 
         //String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
         //String user = "postgres";
@@ -213,8 +190,8 @@ public class AltaEstablecimiento extends javax.swing.JFrame {
             Connection conex = DriverManager.getConnection(Conexion.cadena, Conexion.user, Conexion.pass);
             java.sql.Statement st = conex.createStatement();
 
-            String sql = "INSERT INTO establecimiento (nombre,ubicacion,pcod,legajo)"+
-            " VALUES ('"+nombre+"', '"+ubicacion+"', '"+pcod+"', '"+legajo+"');";
+            String sql = "INSERT INTO establecimiento (nombre,ubicacion,pcod)"+
+            " VALUES ('"+nombre+"', '"+ubicacion+"', '"+pcod+"');";
 
             //String sql = "INSERT INTO prod ( pcod,dni,nombre,telefono,domicilio) "
             //        + " VALUES ('PR032', '33456453', 'Clon de Raul', '266415789', 'BELGRANO 1355');";
@@ -227,6 +204,8 @@ public class AltaEstablecimiento extends javax.swing.JFrame {
         }
 
         dispose();
+        
+        
 
     }//GEN-LAST:event_AceptarActionPerformed
 
@@ -241,10 +220,6 @@ public class AltaEstablecimiento extends javax.swing.JFrame {
     private void campoPcodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoPcodActionPerformed
 
     }//GEN-LAST:event_campoPcodActionPerformed
-
-    private void eLegajoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eLegajoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_eLegajoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -288,14 +263,12 @@ public class AltaEstablecimiento extends javax.swing.JFrame {
     public static javax.swing.JTextField campoNombre;
     public javax.swing.JTextField campoPcod;
     public javax.swing.JTextField campoUbicacion;
-    public javax.swing.JTextField eLegajo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     // End of variables declaration//GEN-END:variables
     public String pcod;
 }

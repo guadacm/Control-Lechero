@@ -6,6 +6,7 @@
 package Establecimiento;
 
 import Conexion.Conexion;
+import static Menu.Principal.panelDerecha;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -21,6 +22,7 @@ public class AltaAnimal extends javax.swing.JFrame {
      */
     public AltaAnimal() {
         initComponents();
+       
     }
 
     /**
@@ -201,14 +203,12 @@ public class AltaAnimal extends javax.swing.JFrame {
         float peso = Float.parseFloat(campoPeso.getText());
         String fechanac = campoFechaNac.getText();
         int ecod = Integer.parseInt(campo_ecod.getText());
+        
+        //if (campoRaza.getText() != " " && campoPeso.getText() != " " && campoFechaNac.getText() != " " && campo_ecod.getText() != " "){        
         System.out.println(raza);
         System.out.println(peso);
         System.out.println(fechanac);
         System.out.println("campo:" +ecod);
-
-        //String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
-        //String user = "postgres";
-        //String pass = "boca";
 
         try {
             Class.forName("org.postgresql.Driver");
@@ -225,7 +225,17 @@ public class AltaAnimal extends javax.swing.JFrame {
         }
 
         dispose();
-
+        
+        
+        Animal panelAnimal = new Animal(campo_ecod.getText());
+        panelAnimal.setSize(1000,599);
+        panelAnimal.setLocation(5, 5);
+        panelDerecha.removeAll();
+        panelDerecha.add(panelAnimal);
+        panelDerecha.revalidate();
+        panelDerecha.repaint();
+        panelAnimal.codigoE = (campo_ecod.getText());
+        
     }//GEN-LAST:event_AceptarActionPerformed
 
     private void campoRazaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoRazaActionPerformed
