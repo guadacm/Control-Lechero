@@ -1,24 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Menu;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import javax.swing.JFrame;
 
-/**
- *
- * @author Guada
- */
 public class Principal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Principal
-     */
     public Principal() {
         initComponents();
         setLocationRelativeTo(null);
@@ -27,18 +13,9 @@ public class Principal extends javax.swing.JFrame {
     
     public Principal(int m) {
         initComponents();
-        int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
-        int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
-        //setExtendedState(JFrame.MAXIMIZED_BOTH); //mantener maximizada la ventana
-        //System.out.println("ancho " + ancho + " alto " + alto);
-        //this.setSize(ancho, alto);
-        //this.setBounds((ancho / 2) - (this.getWidth() / 2), (alto / 2) - (this.getHeight() / 2), 500, 500);
-        //this.setBounds(0, 0, ancho, alto);
-        //this.pack();
+        //int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
+        //int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
         
-        //fondo.setBounds((ancho / 2) - (this.getWidth() / 2), (alto / 2) - (this.getHeight() / 2), 500, 500);
-        //setLocationRelativeTo(null);
-        //setExtendedState(JFrame.MAXIMIZED_BOTH);
         md=m;
         if (m==1) modo.setText("  Modo: Administrador");
         else {
@@ -219,7 +196,7 @@ public class Principal extends javax.swing.JFrame {
         panelProductor.setLocation(5, 5);
         panelDerecha.removeAll();
         panelDerecha.add(panelProductor);
-        //panelDerecha.add(panelProductor ,BorderLayout.CENTER);
+        
         panelDerecha.revalidate();
         panelDerecha.repaint();
     }//GEN-LAST:event_productorActionPerformed
@@ -231,7 +208,7 @@ public class Principal extends javax.swing.JFrame {
         panelEstablecimiento.setLocation(5, 5);
         panelDerecha.removeAll();
         panelDerecha.add(panelEstablecimiento);
-        //panelDerecha.add(panelProductor ,BorderLayout.CENTER);
+        
         panelDerecha.revalidate();
         panelDerecha.repaint();
     }//GEN-LAST:event_establecimientoActionPerformed

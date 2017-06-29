@@ -1,71 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Establecimiento;
 
 import Conexion.Conexion;
 import static Menu.Principal.panelDerecha;
 import java.awt.event.MouseEvent;
-import java.sql.ResultSet;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Guada
- */
+
 public class Animal extends javax.swing.JPanel {
-
-    /**
-     * Creates new form Productor
-     */
     int row;
 
     public Animal(String codigoE){        
         initComponents();
         volver.setEnabled(true);
         if(Menu.Principal.md == 1) agregar.setEnabled(false);
-        /*if (Menu.Principal.md == 1) {
-            RegistrarProduccion.setEnabled(false);
-            borrar.setEnabled(false);
-            agregar.setEnabled(false);
-            modificar.setEnabled(false);
-        }*/
-
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(Conexion.cadena, Conexion.user, Conexion.pass);
-            java.sql.Statement st = conex.createStatement();
-            DefaultTableModel m = (DefaultTableModel) tabla.getModel();
-            
-            String sql = "SELECT *    " +
-                         "FROM animal " +
-                         " WHERE ecod ='" +codigoE+ "' ORDER BY raza";
-            
-            ResultSet result = st.executeQuery(sql);
-            String fila[] = new String[4];
-            while (result.next()) {
-                fila[0] = result.getString("raza");
-                fila[1] = result.getString("fechanac");
-                fila[2] = result.getString("peso");
-                fila[3] = result.getString("acod");
-                m.addRow(fila);
-            }
-            tabla.setModel(m);
-            result.close();
-            st.close();
-            conex.close();
-        } catch (Exception exc) {
-            System.out.println("Errorx:" + exc.getMessage());
-        }
-
-        setEventoMouseClicked(tabla);
-
-        //tabla.addMouseListener(new MouseAdapter());
+        
+        Conexion.listarAnimal(codigoE);
+        setEventoMouseClicked(tablaA);
     }
 
     private void setEventoMouseClicked(JTable tbl) {
@@ -78,7 +29,7 @@ public class Animal extends javax.swing.JPanel {
     }
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {
-        row = tabla.getSelectedRow();
+        row = tablaA.getSelectedRow();
         if (row != -1 && Menu.Principal.md != 1){
             borrar.setEnabled(true);
             modificar.setEnabled(true);
@@ -92,35 +43,6 @@ public class Animal extends javax.swing.JPanel {
             VerProduccion.setEnabled(false);
         }
     }
-    
-    /*   
-    public Establecimiento1() {
-        initComponents();
-        String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
-        String user = "postgres";
-        String pass = "boca";
-
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(cadena, user, pass);
-            java.sql.Statement st = conex.createStatement();
-            String nombre, dni, telefono, domicilio;
-            String sql = "SELECT * FROM productor ";
-            ResultSet result = st.executeQuery(sql);
-            while (result.next()) {
-                nombre = result.getString("nombre");
-                dni = result.getString("dni");
-                telefono = result.getString("telefono");
-                domicilio = result.getString("domicilio");
-                
-            }
-            result.close();
-            st.close();
-            conex.close();
-        } catch (Exception exc) {
-            System.out.println("Errorx:" + exc.getMessage());
-        }
-    }*/
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -139,7 +61,7 @@ public class Animal extends javax.swing.JPanel {
         jTextField1 = new javax.swing.JTextField();
         buscar = new javax.swing.JButton();
         tablaEstab = new javax.swing.JScrollPane();
-        tabla = new javax.swing.JTable();
+        tablaA = new javax.swing.JTable();
         RegistrarProduccion = new javax.swing.JButton();
         VerProduccion = new javax.swing.JButton();
         volver = new javax.swing.JButton();
@@ -173,7 +95,7 @@ public class Animal extends javax.swing.JPanel {
             }
         });
 
-        jTextField1.setText("Nombre...");
+        jTextField1.setText("...");
 
         buscar.setText("Buscar");
         buscar.addActionListener(new java.awt.event.ActionListener() {
@@ -182,7 +104,7 @@ public class Animal extends javax.swing.JPanel {
             }
         });
 
-        tabla.setModel(new javax.swing.table.DefaultTableModel(
+        tablaA.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -198,7 +120,7 @@ public class Animal extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tablaEstab.setViewportView(tabla);
+        tablaEstab.setViewportView(tablaA);
 
         RegistrarProduccion.setText("Registrar Producción");
         RegistrarProduccion.setEnabled(false);
@@ -302,7 +224,7 @@ public class Animal extends javax.swing.JPanel {
     }//GEN-LAST:event_agregarActionPerformed
 
     private void RegistrarProduccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarProduccionActionPerformed
-        codigoA = (String) tabla.getValueAt(row,3);//codigo del animal del cual vamos a registrar su produccion
+        codigoA = (String) tablaA.getValueAt(row,3);//codigo del animal del cual vamos a registrar su produccion
         RegistrarProduccion nueva = new RegistrarProduccion();
         nueva.setVisible(true);
         nueva.setLocationRelativeTo(this);
@@ -310,7 +232,7 @@ public class Animal extends javax.swing.JPanel {
     }//GEN-LAST:event_RegistrarProduccionActionPerformed
 
     private void VerProduccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerProduccionActionPerformed
-        String codAnimal = (String) tabla.getValueAt(row,3);//codigo del animal
+        String codAnimal = (String) tablaA.getValueAt(row,3);//codigo del animal
         Produccion panelProduccion = new Produccion(codAnimal,codigoE);
         panelProduccion.setSize(1000,599);
         panelProduccion.setLocation(5, 5);
@@ -342,7 +264,7 @@ public class Animal extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton modificar;
-    public static javax.swing.JTable tabla;
+    public static javax.swing.JTable tablaA;
     public static javax.swing.JScrollPane tablaEstab;
     private javax.swing.JButton volver;
     // End of variables declaration//GEN-END:variables

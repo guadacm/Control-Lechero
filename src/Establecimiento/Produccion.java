@@ -1,28 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Establecimiento;
 
 import Conexion.Conexion;
 import static Menu.Principal.panelDerecha;
 import java.awt.event.MouseEvent;
-import java.sql.ResultSet;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Guada
- */
+
 public class Produccion extends javax.swing.JPanel {
-
-    /**
-     * Creates new form Productor
-     */
     int row;
 
     public Produccion(String codigoA, String codigoE){        
@@ -31,38 +16,8 @@ public class Produccion extends javax.swing.JPanel {
         codEstab=codigoE;
         volver.setEnabled(true);
         
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(Conexion.cadena, Conexion.user, Conexion.pass);
-            java.sql.Statement st = conex.createStatement();
-            DefaultTableModel m = (DefaultTableModel) tabla.getModel();
-            
-            String sql = "SELECT *    " +
-                         "FROM produccion " +
-                         " WHERE acod ='" +codigoA+ "' ORDER BY fecha";
-            
-            ResultSet result = st.executeQuery(sql);
-            String fila[] = new String[5];
-            //DecimalFormat a = new DecimalFormat("#0.00");
-            while (result.next()) {
-                fila[0] = result.getString("fecha");
-                fila[1] = result.getString("cantlts");
-                fila[2] = result.getString("sng");
-                fila[3] = result.getString("densidad");
-                fila[4] = result.getString("nroReg");
-                m.addRow(fila);
-            }
-            tabla.setModel(m);
-            result.close();
-            st.close();
-            conex.close();
-        } catch (Exception exc) {
-            System.out.println("Errorx:" + exc.getMessage());
-        }
-
-        setEventoMouseClicked(tabla);
-
-        //tabla.addMouseListener(new MouseAdapter());
+        Conexion.listarProduccion(codigoA);
+        setEventoMouseClicked(tablaPA);
     }
 
     private void setEventoMouseClicked(JTable tbl) {
@@ -75,7 +30,7 @@ public class Produccion extends javax.swing.JPanel {
     }
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {
-        row = tabla.getSelectedRow();
+        row = tablaPA.getSelectedRow();
         if (row != -1){
             borrar.setEnabled(true);
             modificar.setEnabled(true);
@@ -85,35 +40,6 @@ public class Produccion extends javax.swing.JPanel {
             modificar.setEnabled(false);
         }
     }
-    
-    /*   
-    public Establecimiento1() {
-        initComponents();
-        String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
-        String user = "postgres";
-        String pass = "boca";
-
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(cadena, user, pass);
-            java.sql.Statement st = conex.createStatement();
-            String nombre, dni, telefono, domicilio;
-            String sql = "SELECT * FROM productor ";
-            ResultSet result = st.executeQuery(sql);
-            while (result.next()) {
-                nombre = result.getString("nombre");
-                dni = result.getString("dni");
-                telefono = result.getString("telefono");
-                domicilio = result.getString("domicilio");
-                
-            }
-            result.close();
-            st.close();
-            conex.close();
-        } catch (Exception exc) {
-            System.out.println("Errorx:" + exc.getMessage());
-        }
-    }*/
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -131,7 +57,7 @@ public class Produccion extends javax.swing.JPanel {
         jTextField1 = new javax.swing.JTextField();
         buscar = new javax.swing.JButton();
         tablaEstab = new javax.swing.JScrollPane();
-        tabla = new javax.swing.JTable();
+        tablaPA = new javax.swing.JTable();
         volver = new javax.swing.JButton();
 
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -165,7 +91,7 @@ public class Produccion extends javax.swing.JPanel {
             }
         });
 
-        tabla.setModel(new javax.swing.table.DefaultTableModel(
+        tablaPA.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -181,9 +107,9 @@ public class Produccion extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tabla.setColumnSelectionAllowed(true);
-        tablaEstab.setViewportView(tabla);
-        tabla.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tablaPA.setColumnSelectionAllowed(true);
+        tablaEstab.setViewportView(tablaPA);
+        tablaPA.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         volver.setText("volver");
         volver.setEnabled(false);
@@ -279,8 +205,8 @@ public class Produccion extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton modificar;
-    public static javax.swing.JTable tabla;
     public static javax.swing.JScrollPane tablaEstab;
+    public static javax.swing.JTable tablaPA;
     private javax.swing.JButton volver;
     // End of variables declaration//GEN-END:variables
     public String codEstab;

@@ -1,25 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Productor;
 
-import static Productor.AgregarProductor.campoNombre;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
+import Conexion.Conexion;
+import static Menu.Principal.panelDerecha;
 import javax.swing.JFrame;
 
-/**
- *
- * @author Guada
- */
 public class EditarProductor extends javax.swing.JFrame {
 
-    /**
-     * Creates new form editarProd
-     */
     public EditarProductor() {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -206,33 +193,18 @@ public class EditarProductor extends javax.swing.JFrame {
         String telefono = campoTelefono.getText();
         String domicilio = campoDomicilio.getText();
         int pcod = Integer.parseInt(campoPcod.getText());
-        System.out.println(nombre + " " + dni + " " + telefono + " " + domicilio + " " + pcod + " ");
-        String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
-        String user = "postgres";
-        String pass = "carmen26";
-
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(cadena, user, pass);
-            java.sql.Statement st = conex.createStatement();
-            
-            String sql = "UPDATE productor SET nombre='" + nombre + "', telefono='"
-                    + telefono + "', domicilio='" + domicilio + "', dni='" + dni
-                    + "' WHERE pcod=" + pcod + ";";
-            //String sql = "INSERT INTO productor ( dni,nombre,telefono,domicilio)"+
-            //" VALUES ('"+dni+"', '"+nombre+"', '"+telefono+"', '"+domicilio+"');";
-
-            //String sql = "INSERT INTO productor ( pcod,dni,nombre,telefono,domicilio) "
-            //        + " VALUES ('PR032', '33456453', 'Clon de Raul', '266415789', 'BELGRANO 1355');";
-
-            ResultSet result = st.executeQuery(sql);
-            st.close();
-            conex.close();
-        } catch (Exception exc) {
-            System.out.println("Errorx:" + exc.getMessage());
-        }
-
+        
+        Conexion.editarProductor(nombre, telefono, domicilio, dni, pcod);
         dispose();
+        
+        //Para refrescar la pantalla de Gestionar Productor
+        Productor.GestionarProductor panelProductor = new Productor.GestionarProductor();
+        panelProductor.setSize(1000,599);
+        panelProductor.setLocation(5, 5);
+        panelDerecha.removeAll();
+        panelDerecha.add(panelProductor);
+        panelDerecha.revalidate();
+        panelDerecha.repaint();
     }//GEN-LAST:event_AceptarActionPerformed
 
     private void campoPcodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoPcodActionPerformed
@@ -279,7 +251,7 @@ public class EditarProductor extends javax.swing.JFrame {
         });
     }
     
-    public int pcod;
+    //public int pcod;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Aceptar;
     private javax.swing.JButton Cancelar;

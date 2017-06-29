@@ -1,28 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Establecimiento;
 
 import Conexion.Conexion;
 import static Menu.Principal.panelDerecha;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 
-/**
- *
- * @author Guada
- */
 public class AltaAnimal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AltaProductor
-     */
     public AltaAnimal() {
-        initComponents();
-       
+        initComponents();       
     }
 
     /**
@@ -203,29 +188,9 @@ public class AltaAnimal extends javax.swing.JFrame {
         float peso = Float.parseFloat(campoPeso.getText());
         String fechanac = campoFechaNac.getText();
         int ecod = Integer.parseInt(campo_ecod.getText());
-        
-        //if (campoRaza.getText() != " " && campoPeso.getText() != " " && campoFechaNac.getText() != " " && campo_ecod.getText() != " "){        
-        System.out.println(raza);
-        System.out.println(peso);
-        System.out.println(fechanac);
-        System.out.println("campo:" +ecod);
 
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(Conexion.cadena, Conexion.user, Conexion.pass);
-            java.sql.Statement st = conex.createStatement();
-
-            String sql = "INSERT INTO animal (raza,fechanac,peso,ecod)"
-                    + " VALUES ('" + raza + "', '" + fechanac + "', '" + peso + "', '" + ecod +"');";
-            ResultSet result = st.executeQuery(sql);
-            st.close();
-            conex.close();
-        } catch (Exception exc) {
-            System.out.println("Errorx:" + exc.getMessage());
-        }
-
-        dispose();
-        
+        Conexion.altaAnimal(raza, peso, fechanac, ecod);
+        dispose();       
         
         Animal panelAnimal = new Animal(campo_ecod.getText());
         panelAnimal.setSize(1000,599);

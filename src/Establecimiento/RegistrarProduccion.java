@@ -1,24 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Establecimiento;
 
 import Conexion.Conexion;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 
-/**
- *
- * @author Guada
- */
 public class RegistrarProduccion extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Registrar Produccion
-     */
     public RegistrarProduccion() {
         initComponents();
     }
@@ -239,21 +225,7 @@ public class RegistrarProduccion extends javax.swing.JFrame {
         float densidad = Float.parseFloat(campoDensidad.getText());
         int acod = Integer.parseInt(prodAnimalX.getText());
         
-
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(Conexion.cadena, Conexion.user, Conexion.pass);
-            java.sql.Statement st = conex.createStatement();
-
-            String sql = "INSERT INTO produccion (fecha,cantlts,sng,densidad,acod)"
-                    + " VALUES ('" + fecha + "', '" + cantlts + "', '" + sng + "', '" + densidad +"', '" + acod +"');";
-            ResultSet result = st.executeQuery(sql);
-            st.close();
-            conex.close();
-        } catch (Exception exc) {
-            System.out.println("Errorx:" + exc.getMessage());
-        }
-
+        Conexion.registrarProduccion(fecha, cantlts, sng, densidad, acod);
         dispose();
 
     }//GEN-LAST:event_AceptarActionPerformed

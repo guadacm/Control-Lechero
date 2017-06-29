@@ -1,105 +1,49 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Establecimiento;
 
 import Conexion.Conexion;
 import static Menu.Principal.panelDerecha;
 import java.awt.Dimension;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartPanel;
 
-/**
- *
- * @author Guada
- */
 public class Estadisticas extends javax.swing.JPanel {
     
     float lts[] = new float[12];
     
-    /**
-     * Creates new form Estadisticas
-     */
-    public Estadisticas(int ecod) {
+    public Estadisticas(int ecod, String s) {
         initComponents();
         Dimension d = panelDerecha.getSize();
+        jLabel2.setText("Establecimiento: " + s);
         
-        // Obtengo datos de la base de datos para calcular las estadisticas
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(Conexion.cadena, Conexion.user, Conexion.pass);
-            java.sql.Statement st = conex.createStatement();
-            DefaultTableModel m = (DefaultTableModel) aux.getModel();
-            
-            String sql = "SELECT fecha, cantlts, sng, densidad, produccion.acod, nombre\n" +
-                    "FROM produccion, animal, establecimiento\n" +
-                    "WHERE (produccion.acod=animal.acod AND animal.ecod=establecimiento.ecod) " +
-                    "AND  establecimiento.ecod="+ ecod + ";";            
-            ResultSet result = st.executeQuery(sql);
-            String fila[] = new String[6];
-            while (result.next()) {
-                fila[0] = result.getString("fecha");
-                fila[1] = result.getString("cantlts");
-                fila[2] = result.getString("sng");
-                fila[3] = result.getString("densidad");
-                fila[4] = result.getString("acod");
-                fila[5] = result.getString("nombre");
-                m.addRow(fila);
-            }
-            aux.setModel(m);
-            result.close();
-            st.close();
-            conex.close();
-            tablaEscondida.setVisible(false);
-            
-        } catch (Exception exc) {
-            System.out.println("Errorx:" + exc.getMessage());
-        }
-        
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(Conexion.cadena, Conexion.user, Conexion.pass);
-            java.sql.Statement st = conex.createStatement();
-            DefaultTableModel m = (DefaultTableModel) tabla.getModel();
-            
-            String sql = "SELECT fecha, SUM(cantlts)\n" +
-                    "FROM produccion, animal, establecimiento\n" +
-                    "WHERE (produccion.acod=animal.acod AND animal.ecod=establecimiento.ecod) " +
-                    "AND  establecimiento.ecod= 1\n" +
-                    "GROUP BY fecha;";            
-            ResultSet result = st.executeQuery(sql);
-            String fila[] = new String[2];
-            while (result.next()) {
-                fila[0] = result.getString("fecha");
-                fila[1] = result.getString("sum");                
-                m.addRow(fila);
-            }
-            tabla.setModel(m);            
-            result.close();
-            st.close();
-            conex.close();
-            
-        } catch (Exception exc) {
-            System.out.println("Errorx:" + exc.getMessage());
-        }
+        Conexion.obtenerLitrosPorMes(ecod);
         
         float lts[] = new float[12];
         for (int i=0; i<12; i++){
             lts[i] = (float)0.0;
         }
-        for(int i=0; i<tabla.getRowCount(); i++){
-            String fecha = (String) tabla.getValueAt(i, 0);
-            int mes = Integer.parseInt(fecha.substring(5, 7));
-            lts[mes-1] = Float.parseFloat((String) tabla.getValueAt(i, 1));
+        for(int i=0; i<tablaDE.getRowCount(); i++){
+            String fecha = (String) tablaDE.getValueAt(i, 0);
+            int mes = 0;
+            switch (fecha){
+                    case "Enero": mes = 1; break;
+                    case "Febrero": mes = 2; break;
+                    case "Marzo": mes = 3; break;
+                    case "Abrl": mes = 4; break;
+                    case "Mayo": mes = 5; break;
+                    case "Junio": mes = 6; break;
+                    case "Julio": mes = 7; break;
+                    case "Agosto": mes = 8; break;
+                    case "Septiembre": mes = 9; break;
+                    case "Octubre": mes = 10; break;
+                    case "Noviembre": mes = 11; break;
+                    case "Diciembre": mes = 12; break;
+                }
+            lts[mes-1] = Float.parseFloat((String) tablaDE.getValueAt(i, 1));
         }
         Grafico g = new Grafico(lts);
         ChartPanel PanelGraf = new ChartPanel(g.grafica);
-        PanelGraf.setSize(d.width/2, d.height/2);
+        Dimension jd = jPanel1.getSize();
+        PanelGraf.setSize(jd.width-10, jd.height-10);
         jPanel1.add(PanelGraf);
         jPanel1.repaint();
         
@@ -113,60 +57,22 @@ public class Estadisticas extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
-        tablaEscondida = new javax.swing.JScrollPane();
-        aux = new javax.swing.JTable();
         datos = new javax.swing.JScrollPane();
-        tabla = new javax.swing.JTable();
+        tablaDE = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        volver = new javax.swing.JButton();
 
-        setLayout(new java.awt.GridBagLayout());
+        setLayout(null);
 
-        tablaEscondida.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentAdded(java.awt.event.ContainerEvent evt) {
-                tablaEscondidaComponentAdded(evt);
-            }
-            public void componentRemoved(java.awt.event.ContainerEvent evt) {
-                tablaEscondidaComponentRemoved(evt);
-            }
-        });
-        tablaEscondida.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentHidden(java.awt.event.ComponentEvent evt) {
-                tablaEscondidaComponentHidden(evt);
-            }
-        });
-
-        aux.setModel(new javax.swing.table.DefaultTableModel(
+        tablaDE.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Fecha", "Cant. Lts.", "SNG", "Densidad", "Acod", "Establecimiento"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        aux.setRowHeight(10);
-        tablaEscondida.setViewportView(aux);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        add(tablaEscondida, gridBagConstraints);
-
-        tabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Fecha", "Cant. Lts"
+                "Mes", "Cant. Lts"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -177,58 +83,69 @@ public class Estadisticas extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tabla.setMinimumSize(new java.awt.Dimension(150, 0));
-        tabla.setRowHeight(10);
-        tabla.setRowSelectionAllowed(false);
-        datos.setViewportView(tabla);
+        tablaDE.setMinimumSize(new java.awt.Dimension(150, 0));
+        tablaDE.setRowHeight(10);
+        tablaDE.setRowSelectionAllowed(false);
+        datos.setViewportView(tablaDE);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        add(datos, gridBagConstraints);
+        add(datos);
+        datos.setBounds(30, 90, 230, 310);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 134, Short.MAX_VALUE)
+            .addGap(0, 700, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 7, Short.MAX_VALUE)
+            .addGap(0, 310, Short.MAX_VALUE)
         );
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        add(jPanel1, gridBagConstraints);
+        add(jPanel1);
+        jPanel1.setBounds(274, 90, 700, 310);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Produccion por mes");
+        add(jLabel1);
+        jLabel1.setBounds(0, 40, 970, 20);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel2.setText("jLabel2");
+        add(jLabel2);
+        jLabel2.setBounds(0, 0, 830, 22);
+
+        volver.setText("Volver");
+        volver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                volverActionPerformed(evt);
+            }
+        });
+        add(volver);
+        volver.setBounds(880, 440, 63, 23);
     }// </editor-fold>//GEN-END:initComponents
 
     
     
-    private void tablaEscondidaComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tablaEscondidaComponentHidden
+    private void volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volverActionPerformed
+        Establecimiento.establecimiento panelEstablecimiento = new Establecimiento.establecimiento();
+        panelEstablecimiento.setSize(1000,599);
+        panelEstablecimiento.setLocation(5, 5);
+        panelDerecha.removeAll();
+        panelDerecha.add(panelEstablecimiento);
+        panelDerecha.revalidate();
+        panelDerecha.repaint();
         // TODO add your handling code here:
-
-    }//GEN-LAST:event_tablaEscondidaComponentHidden
-
-    private void tablaEscondidaComponentRemoved(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tablaEscondidaComponentRemoved
-        // TODO add your handling code here
-    }//GEN-LAST:event_tablaEscondidaComponentRemoved
-
-    private void tablaEscondidaComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tablaEscondidaComponentAdded
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tablaEscondidaComponentAdded
+    }//GEN-LAST:event_volverActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable aux;
     private javax.swing.JScrollPane datos;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTable tabla;
-    private javax.swing.JScrollPane tablaEscondida;
+    public static javax.swing.JTable tablaDE;
+    private javax.swing.JButton volver;
     // End of variables declaration//GEN-END:variables
 }

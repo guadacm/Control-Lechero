@@ -1,67 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Establecimiento;
 
 import Conexion.Conexion;
 import static Menu.Principal.panelDerecha;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
-import java.sql.ResultSet;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import org.jfree.chart.ChartPanel;
 
-/**
- *
- * @author Guada
- */
 public class establecimiento extends javax.swing.JPanel {
-
-    /**
-     * Creates new form Productor
-     */
     int row;
 
     public establecimiento(){
         initComponents();
-//        String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
-//        String user = "postgres";
-//        String pass = "boca";
-
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(Conexion.cadena, Conexion.user, Conexion.pass);
-            java.sql.Statement st = conex.createStatement();
-            DefaultTableModel m = (DefaultTableModel) tabla.getModel();
-
-            String sql = "SELECT establecimiento.nombre, ubicacion, ecod, productor.nombre as pnombre \n" +
-                         "FROM establecimiento, productor \n" +
-                         "WHERE establecimiento.pcod = productor.pcod ORDER BY establecimiento.nombre";
-            ResultSet result = st.executeQuery(sql);
-            String fila[] = new String[4];
-            while (result.next()) {
-                fila[0] = result.getString("nombre");
-                fila[1] = result.getString("ubicacion");
-                fila[2] = result.getString("pnombre");
-                fila[3] = result.getString("ecod");
-                m.addRow(fila);
-            }
-            tabla.setModel(m);
-            result.close();
-            st.close();
-            conex.close();
-        } catch (Exception exc) {
-            System.out.println("Errorx:" + exc.getMessage());
-        }
-
-        setEventoMouseClicked(tabla);
-
-        //tabla.addMouseListener(new MouseAdapter());
+        Conexion.listarEstablecimiento();
+        setEventoMouseClicked(tablaE);
     }
 
     private void setEventoMouseClicked(JTable tbl) {
@@ -74,7 +26,7 @@ public class establecimiento extends javax.swing.JPanel {
     }
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {
-        row = tabla.getSelectedRow();
+        row = tablaE.getSelectedRow();
         if (row != -1){
             borrar.setEnabled(true);
             modificar.setEnabled(true);
@@ -104,7 +56,7 @@ public class establecimiento extends javax.swing.JPanel {
         jTextField1 = new javax.swing.JTextField();
         buscar = new javax.swing.JButton();
         tablaEstab = new javax.swing.JScrollPane();
-        tabla = new javax.swing.JTable();
+        tablaE = new javax.swing.JTable();
         ABM_Animal = new javax.swing.JButton();
         VerDatosEstadisticos = new javax.swing.JButton();
 
@@ -139,7 +91,7 @@ public class establecimiento extends javax.swing.JPanel {
             }
         });
 
-        tabla.setModel(new javax.swing.table.DefaultTableModel(
+        tablaE.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -155,9 +107,9 @@ public class establecimiento extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tablaEstab.setViewportView(tabla);
+        tablaEstab.setViewportView(tablaE);
 
-        ABM_Animal.setText("ABM Animal");
+        ABM_Animal.setText("Animal");
         ABM_Animal.setEnabled(false);
         ABM_Animal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -240,7 +192,7 @@ public class establecimiento extends javax.swing.JPanel {
     }//GEN-LAST:event_buscarActionPerformed
 
     private void ABM_AnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ABM_AnimalActionPerformed
-        String codEstab = (String) tabla.getValueAt(row,3);//codigo del establecimiento al que pertenece el animal
+        String codEstab = (String) tablaE.getValueAt(row,3);//codigo del establecimiento al que pertenece el animal
         Animal panelAnimal = new Animal(codEstab);
         panelAnimal.setSize(1000,599);
         panelAnimal.setLocation(5, 5);
@@ -254,26 +206,13 @@ public class establecimiento extends javax.swing.JPanel {
     private void VerDatosEstadisticosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerDatosEstadisticosActionPerformed
         Dimension d = panelDerecha.getSize();
         
-        // Grafico "Produccion de leche por mes"
-        //Grafico g = new Grafico();
-        //ChartPanel PanelGraf = new ChartPanel(g.grafica);
-        //PanelGraf.setSize(100, 100);
+        Estadisticas Panel = new Estadisticas(Integer.parseInt((String)tablaE.getValueAt(row, 3)), (String)tablaE.getValueAt(row, 0));
         
-        //Ventana.getContentPane().add(Panel);
-        //Ventana.pack();
-        //Ventana.setVisible(true);
-        //Ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        Estadisticas Panel = new Estadisticas(Integer.parseInt((String)tabla.getValueAt(row, 3)));
-        //ChartPanel Panel = new ChartPanel(nuevo.grafica);
-        
-        //Panel.setSize(d.width/2, d.height/2);  
         Panel.setSize(d);
         Panel.setLocation(5, 5);
         panelDerecha.removeAll();
         panelDerecha.add(Panel);
-        //Panel.add(PanelGraf);
-        //panelDerecha.add(PanelGraf);        
+             
         panelDerecha.revalidate();
         panelDerecha.repaint();
     }//GEN-LAST:event_VerDatosEstadisticosActionPerformed
@@ -288,7 +227,7 @@ public class establecimiento extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton modificar;
-    public static javax.swing.JTable tabla;
+    public static javax.swing.JTable tablaE;
     public static javax.swing.JScrollPane tablaEstab;
     // End of variables declaration//GEN-END:variables
 }

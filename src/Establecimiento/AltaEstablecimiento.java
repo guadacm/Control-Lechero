@@ -1,25 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Establecimiento;
 
 import Conexion.Conexion;
-import Establecimiento.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 
-/**
- *
- * @author Guada
- */
 public class AltaEstablecimiento extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AltaProductor
-     */
     public AltaEstablecimiento() {
         initComponents();
     }
@@ -179,34 +164,9 @@ public class AltaEstablecimiento extends javax.swing.JFrame {
         String nombre = campoNombre.getText();
         int pcod = Integer.parseInt(campoPcod.getText());
         String ubicacion = campoUbicacion.getText();
-        //int legajo = Integer.parseInt(eLegajo.getText()); 
-
-        //String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
-        //String user = "postgres";
-        //String pass = "boca";
-
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(Conexion.cadena, Conexion.user, Conexion.pass);
-            java.sql.Statement st = conex.createStatement();
-
-            String sql = "INSERT INTO establecimiento (nombre,ubicacion,pcod)"+
-            " VALUES ('"+nombre+"', '"+ubicacion+"', '"+pcod+"');";
-
-            //String sql = "INSERT INTO prod ( pcod,dni,nombre,telefono,domicilio) "
-            //        + " VALUES ('PR032', '33456453', 'Clon de Raul', '266415789', 'BELGRANO 1355');";
-
-            ResultSet result = st.executeQuery(sql);
-            st.close();
-            conex.close();
-        } catch (Exception exc) {
-            System.out.println("Errorx:" + exc.getMessage());
-        }
-
+       
+        Conexion.altaEstablecimiento(nombre, pcod, ubicacion);
         dispose();
-        
-        
-
     }//GEN-LAST:event_AceptarActionPerformed
 
     private void campoNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoNombreActionPerformed
@@ -270,5 +230,5 @@ public class AltaEstablecimiento extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     // End of variables declaration//GEN-END:variables
-    public String pcod;
+    //public String pcod;
 }

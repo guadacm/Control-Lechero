@@ -1,0 +1,18 @@
+>> Grupo:
+    MEDINA, Guadalupe
+    MONTENEGRO, Luis
+
+>> Notas
+** Los CU que implementamos son:
+    - Alta Productor: Iniciar el programa como Administrador, luego hacer clic en Productor, luego hacer clic en Agregar.
+    - Buscar Productor: Iniciar el programa como Administrador, luego hacer clic en Productor. En la parte de arriba
+                        se encuentra el campo para buscar.
+    - Registrar Produccion: Iniciar el programa como Empleado, luego hacer clic en Establecimiento, 
+                            luego seleccionar un establecimiento de la lista haciendo clic sobre él, hacer clic en Animal,
+                            luego selecciona un animal de la lista haciendo clic sobre él, clic en Registrar Produccion.
+    - Ver Datos Estadisticos: Iniciar el programa como Administrador, luego hacer clic en Establecimiento,
+                            luego seleccionar un establecimiento de la lista haciendo clic sobre él, hacer clic en Ver Datos estadisticos.
+
+** Creamos una Base de Datos en PostgreSQL
+
+** En el archivo BD-PM-ISI se encuentran las consultas para crear las tablas,y además insertar algunos registros.

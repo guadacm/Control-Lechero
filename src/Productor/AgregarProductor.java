@@ -1,28 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Productor;
 
 import Conexion.Conexion;
-import static Conexion.Conexion.pass;
-import Establecimiento.AltaEstablecimiento;
 import static Menu.Principal.panelDerecha;
-import static Productor.GestionarProductor.tabla;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 
-/**
- *
- * @author Guada
- */
 public class AgregarProductor extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AgregarProductor
-     */
     public AgregarProductor() {
         initComponents();
     }
@@ -212,74 +195,8 @@ public class AgregarProductor extends javax.swing.JFrame {
         String dni = campoDNI.getText();
         String telefono = campoTelefono.getText();
         String domicilio = campoDomicilio.getText();
-
-        //String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
-        //String user = "postgres";
-        //String pass = "carmen26";
-
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(Conexion.cadena, Conexion.user, Conexion.pass);
-            java.sql.Statement st = conex.createStatement();
-
-            String sql = "INSERT INTO productor ( dni,nombre,telefono,domicilio)"+
-            " VALUES ('"+dni+"', '"+nombre+"', '"+telefono+"', '"+domicilio+"');";
-
-            //String sql = "INSERT INTO productor ( pcod,dni,nombre,telefono,domicilio) "
-            //        + " VALUES ('PR032', '33456453', 'Clon de Raul', '266415789', 'BELGRANO 1355');";
-
-            ResultSet result = st.executeQuery(sql);
-           
-            st.close();
-            conex.close();
-        } 
-        catch (Exception exc) {
-            String m,e;
-            m = "ERROR: llave duplicada viola restricción de unicidad «productor_dni_key»\n" +
-            "  Detail: Ya existe la llave (dni)=("+dni+").";
-            e =exc.getMessage();
-            System.out.println("Errorx:" + e);
-            if (e.equals(m)){ 
-                System.out.println("Error de dni repetido" ); 
-            }
-            else{
-            try {
-            Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(Conexion.cadena, Conexion.user, Conexion.pass);
-            java.sql.Statement st = conex.createStatement();
-
-            String sql = "SELECT pcod FROM productor WHERE dni='" + dni + "';";
-
-            //String sql = "INSERT INTO productor ( pcod,dni,nombre,telefono,domicilio) "
-            //        + " VALUES ('PR032', '33456453', 'Clon de Raul', '266415789', 'BELGRANO 1355');";
-
-            //ResultSet result = st.executeQuery(sql);
-            ResultSet result = st.executeQuery(sql);
-            System.out.println(result);
-            String cod ;//= result.getString("pcod");
-            if (result.next()){
-                cod = result.getString("pcod");
-            
-            
-                AltaEstablecimiento nueva = new Establecimiento.AltaEstablecimiento();
-                nueva.setVisible(true);
-                nueva.setLocationRelativeTo(this);            
-                nueva.campoPcod.setText(cod);
-            }
-            
-            st.close();
-            conex.close();
-            
-            
         
-        } catch (Exception exc1) {
-            System.out.println("Errorx:" + exc1.getMessage());
-        }
-
-                
-            }
-        }
-    
+        Conexion.agregarProductor(dni, nombre, telefono, domicilio);
         dispose();
         
         //Para refrescar la pantalla de Gestionar Productor

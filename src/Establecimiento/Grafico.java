@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Establecimiento;
 
 import org.jfree.chart.ChartFactory;
@@ -10,19 +6,10 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-/**
- *
- * @author Guada
- */
 public class Grafico extends javax.swing.JPanel {
     JFreeChart grafica;
     DefaultCategoryDataset Datos = new DefaultCategoryDataset();
-    float lts[] = new float[12];
     
-    /**
-     * Creates new form Grafico
-     * @param lts
-     */
     public Grafico(float lts[]) {
         initComponents();
         
@@ -39,7 +26,7 @@ public class Grafico extends javax.swing.JPanel {
         Datos.addValue(lts[10], "Negocio 1", "Noviembre");
         Datos.addValue(lts[11], "Negocio 1", "Diciembre");
 
-        grafica = ChartFactory.createBarChart("Produccion de leche por mes",
+        grafica = ChartFactory.createBarChart(" ",
                 "Mes", "Lts", Datos,
                 PlotOrientation.VERTICAL, false, true, false);
     }

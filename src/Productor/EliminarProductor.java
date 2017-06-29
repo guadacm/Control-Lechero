@@ -1,23 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Productor;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
+import Conexion.Conexion;
+import static Menu.Principal.panelDerecha;
 
-/**
- *
- * @author Guada
- */
 public class EliminarProductor extends javax.swing.JFrame {
 
-    /**
-     * Creates new form EliminarProductor
-     */
     public EliminarProductor() {
         initComponents();
     }
@@ -146,34 +134,17 @@ public class EliminarProductor extends javax.swing.JFrame {
         String nbre = nombre.getText();
         String docu = dni.getText();
         
-        String cadena = "jdbc:postgresql://localhost:5432/PM-ISI";
-        String user = "postgres";
-        String pass = "carmen26";
-
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(cadena, user, pass);
-            java.sql.Statement st = conex.createStatement();
-            
-            String sql = "DELETE FROM establecimiento WHERE pcod=" + pcodBorrar
-                    + "; DELETE FROM productor WHERE pcod=" + pcodBorrar +";";
-            //String sql = "UPDATE productor SET nombre='" + nombre + "', telefono='"
-            //        + telefono + "', domicilio='" + domicilio + "', dni='" + dni
-            //        + "' WHERE pcod=" + pcod + ";";
-            //String sql = "INSERT INTO productor ( dni,nombre,telefono,domicilio)"+
-            //" VALUES ('"+dni+"', '"+nombre+"', '"+telefono+"', '"+domicilio+"');";
-
-            //String sql = "INSERT INTO productor ( pcod,dni,nombre,telefono,domicilio) "
-            //        + " VALUES ('PR032', '33456453', 'Clon de Raul', '266415789', 'BELGRANO 1355');";
-
-            ResultSet result = st.executeQuery(sql);
-            st.close();
-            conex.close();
-        } catch (Exception exc) {
-            System.out.println("Errorx:" + exc.getMessage());
-        }
-
+        Conexion.eliminarProductor(pcodBorrar);
         dispose();
+        
+        //Para refrescar la pantalla de Gestionar Productor
+        Productor.GestionarProductor panelProductor = new Productor.GestionarProductor();
+        panelProductor.setSize(1000,599);
+        panelProductor.setLocation(5, 5);
+        panelDerecha.removeAll();
+        panelDerecha.add(panelProductor);
+        panelDerecha.revalidate();
+        panelDerecha.repaint();
     }//GEN-LAST:event_AceptarActionPerformed
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed

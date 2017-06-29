@@ -1,19 +1,11 @@
 package Inicio;
 
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 public class InicioVentana extends javax.swing.JFrame {
 
     private static void exit(int i) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-     // Creates new form InicioVentana
     public InicioVentana() {
         initComponents();
         setLocationRelativeTo(null);
@@ -80,7 +72,6 @@ public class InicioVentana extends javax.swing.JFrame {
 
     private void SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirActionPerformed
         // TODO add your handling code here:
-        //Inicio.InicioVentana.exit(0);
         dispose();
     }//GEN-LAST:event_SalirActionPerformed
 
@@ -88,7 +79,7 @@ public class InicioVentana extends javax.swing.JFrame {
         Menu.Principal nueva = new Menu.Principal(1);
         nueva.setVisible(true);
         nueva.setLocationRelativeTo(this);
-        //System.exit(0);
+
         dispose();
     }//GEN-LAST:event_AdministradorActionPerformed
 
@@ -96,7 +87,7 @@ public class InicioVentana extends javax.swing.JFrame {
         Menu.Principal nueva = new Menu.Principal(0);
         nueva.setVisible(true);
         nueva.setLocationRelativeTo(this);
-        //System.exit(0);
+
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

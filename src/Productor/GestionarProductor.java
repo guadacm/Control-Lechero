@@ -1,61 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Productor;
 
 import Conexion.Conexion;
 import Establecimiento.AltaEstablecimiento;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-/**
- *
- * @author Guada
- */
+
 public class GestionarProductor extends javax.swing.JPanel {
     int row;
 
-    /**
-     * Creates new form Productor
-     */
     public GestionarProductor() {
         initComponents();
-
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection conex = DriverManager.getConnection(Conexion.cadena, Conexion.user, Conexion.pass);
-            java.sql.Statement st = conex.createStatement();
-            DefaultTableModel m = (DefaultTableModel) tabla.getModel();
-
-            String sql = "SELECT * FROM productor ORDER BY nombre";
-            ResultSet result = st.executeQuery(sql);
-            String fila[] = new String[5];
-            while (result.next()) {
-                fila[0] = result.getString("nombre");
-                fila[1] = result.getString("dni");
-                fila[2] = result.getString("telefono");
-                fila[3] = result.getString("domicilio");
-                fila[4] = result.getString("pcod");
-                m.addRow(fila);
-            }
-            tabla.setModel(m);
-            result.close();
-            st.close();
-            conex.close();
-        } catch (Exception exc) {
-            System.out.println("Errorx:" + exc.getMessage());
-        }
-
-        setEventoMouseClicked(tabla);
+        Conexion.listarProductor();
+        setEventoMouseClicked(tablaP);
     }
     
     private void setEventoMouseClicked(JTable tbl) {
@@ -68,7 +28,7 @@ public class GestionarProductor extends javax.swing.JPanel {
     }
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {
-        row = tabla.getSelectedRow();
+        row = tablaP.getSelectedRow();
         if (row != -1){
             borrar.setEnabled(true);
             modificar.setEnabled(true);
@@ -95,7 +55,7 @@ public class GestionarProductor extends javax.swing.JPanel {
         buscarNombre = new javax.swing.JTextField();
         buscar = new javax.swing.JButton();
         tablaProd = new javax.swing.JScrollPane();
-        tabla = new javax.swing.JTable();
+        tablaP = new javax.swing.JTable();
         agregarEstablecimiento = new javax.swing.JButton();
 
         borrar.setText("Borrar");
@@ -139,7 +99,7 @@ public class GestionarProductor extends javax.swing.JPanel {
             }
         });
 
-        tabla.setModel(new javax.swing.table.DefaultTableModel(
+        tablaP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -155,11 +115,11 @@ public class GestionarProductor extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tabla.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tabla.setMinimumSize(new java.awt.Dimension(0, 0));
-        tablaProd.setViewportView(tabla);
-        if (tabla.getColumnModel().getColumnCount() > 0) {
-            tabla.getColumnModel().getColumn(4).setResizable(false);
+        tablaP.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tablaP.setMinimumSize(new java.awt.Dimension(0, 0));
+        tablaProd.setViewportView(tablaP);
+        if (tablaP.getColumnModel().getColumnCount() > 0) {
+            tablaP.getColumnModel().getColumn(4).setResizable(false);
         }
 
         agregarEstablecimiento.setText("Agregar Establecimiento");
@@ -223,9 +183,9 @@ public class GestionarProductor extends javax.swing.JPanel {
         EliminarProductor borrar = new EliminarProductor();
         borrar.setVisible(true);
         borrar.setLocationRelativeTo(this);
-        borrar.nombre.setText((String) tabla.getValueAt(row, 0));
-        borrar.dni.setText((String) tabla.getValueAt(row, 1));
-        borrar.pcodBorrar = Integer.parseInt((String)tabla.getValueAt(row, 4));
+        borrar.nombre.setText((String) tablaP.getValueAt(row, 0));
+        borrar.dni.setText((String) tablaP.getValueAt(row, 1));
+        borrar.pcodBorrar = Integer.parseInt((String)tablaP.getValueAt(row, 4));
     }//GEN-LAST:event_borrarActionPerformed
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
@@ -233,11 +193,11 @@ public class GestionarProductor extends javax.swing.JPanel {
         EditarProductor edit = new EditarProductor();
         edit.setVisible(true);
         edit.setLocationRelativeTo(this);
-        edit.campoNombre.setText((String) tabla.getValueAt(row, 0));
-        edit.campoDNI.setText((String) tabla.getValueAt(row, 1));
-        edit.campoTelefono.setText((String) tabla.getValueAt(row, 2));
-        edit.campoDomicilio.setText((String) tabla.getValueAt(row, 3));
-        edit.campoPcod.setText((String) tabla.getValueAt(row, 4));
+        edit.campoNombre.setText((String) tablaP.getValueAt(row, 0));
+        edit.campoDNI.setText((String) tablaP.getValueAt(row, 1));
+        edit.campoTelefono.setText((String) tablaP.getValueAt(row, 2));
+        edit.campoDomicilio.setText((String) tablaP.getValueAt(row, 3));
+        edit.campoPcod.setText((String) tablaP.getValueAt(row, 4));
 
     }//GEN-LAST:event_modificarActionPerformed
 
@@ -250,12 +210,12 @@ public class GestionarProductor extends javax.swing.JPanel {
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
         // TODO add your handling code here:
         String nbre = (String) buscarNombre.getText();
-        TableRowSorter filtro = new TableRowSorter(tabla.getModel());
+        TableRowSorter filtro = new TableRowSorter(tablaP.getModel());
         this.repaint();
         filtro.setRowFilter(RowFilter.regexFilter(nbre, 0));
-        tabla.setRowSorter(filtro);
+        tablaP.setRowSorter(filtro);
         
-        setEventoMouseClicked(tabla);
+        setEventoMouseClicked(tablaP);
     }//GEN-LAST:event_buscarActionPerformed
 
     private void buscarNombreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buscarNombreMouseClicked
@@ -268,7 +228,7 @@ public class GestionarProductor extends javax.swing.JPanel {
         AltaEstablecimiento nueva = new Establecimiento.AltaEstablecimiento();
         nueva.setVisible(true);
         nueva.setLocationRelativeTo(this);
-        nueva.campoPcod.setText((String) tabla.getValueAt(row, 4));
+        nueva.campoPcod.setText((String) tablaP.getValueAt(row, 4));
         
         
     }//GEN-LAST:event_agregarEstablecimientoActionPerformed
@@ -282,7 +242,7 @@ public class GestionarProductor extends javax.swing.JPanel {
     private javax.swing.JTextField buscarNombre;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton modificar;
-    public static javax.swing.JTable tabla;
+    public static javax.swing.JTable tablaP;
     public static javax.swing.JScrollPane tablaProd;
     // End of variables declaration//GEN-END:variables
 }
